@@ -3,7 +3,7 @@ bing-queen-ai:
   # 名称
   name: bing-queen-ai
   # 版本
-  version: 3.9.0
+  version: 1.0.0
   # 版权年份
   copyrightYear: 2025
   # 文件路径 示例（ Windows配置D:/bing-queen-ai/uploadPath，Linux配置 /home/bing-queen-ai/uploadPath）
