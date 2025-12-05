@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bing.queen.ai.system.mapper.AiMessageMapper">
+    
+    <resultMap type="AiMessage" id="AiMessageResult">
+        <result property="id"    column="id"    />
+        <result property="sessionId"    column="session_id"    />
+        <result property="sortOrder"    column="sort_order"    />
+        <result property="isCurrent"    column="is_current"    />
+        <result property="role"    column="role"    />
+        <result property="type"    column="type"    />
+        <result property="content"    column="content"    />
+        <result property="fileMeta"    column="file_meta"    />
+        <result property="tokenCount"    column="token_count"    />
+        <result property="errorMsg"    column="error_msg"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectAiMessageVo">
+        select id, session_id, sort_order, is_current, role, type, content, file_meta, token_count, error_msg, create_time from ai_message
+    </sql>
+
+    <select id="selectAiMessageList" parameterType="AiMessage" resultMap="AiMessageResult">
+        <include refid="selectAiMessageVo"/>
+        <where>  
+            <if test="sessionId != null "> and session_id = #{sessionId}</if>
+            <if test="sortOrder != null "> and sort_order = #{sortOrder}</if>
+            <if test="isCurrent != null "> and is_current = #{isCurrent}</if>
+            <if test="role != null  and role != ''"> and role = #{role}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="fileMeta != null  and fileMeta != ''"> and file_meta = #{fileMeta}</if>
+            <if test="tokenCount != null "> and token_count = #{tokenCount}</if>
+            <if test="errorMsg != null  and errorMsg != ''"> and error_msg = #{errorMsg}</if>
+        </where>
+    </select>
+    
+    <select id="selectAiMessageById" parameterType="Long" resultMap="AiMessageResult">
+        <include refid="selectAiMessageVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAiMessage" parameterType="AiMessage" useGeneratedKeys="true" keyProperty="id">
+        insert into ai_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sessionId != null">session_id,</if>
+            <if test="sortOrder != null">sort_order,</if>
+            <if test="isCurrent != null">is_current,</if>
+            <if test="role != null and role != ''">role,</if>
+            <if test="type != null">type,</if>
+            <if test="content != null">content,</if>
+            <if test="fileMeta != null">file_meta,</if>
+            <if test="tokenCount != null">token_count,</if>
+            <if test="errorMsg != null">error_msg,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sessionId != null">#{sessionId},</if>
+            <if test="sortOrder != null">#{sortOrder},</if>
+            <if test="isCurrent != null">#{isCurrent},</if>
+            <if test="role != null and role != ''">#{role},</if>
+            <if test="type != null">#{type},</if>
+            <if test="content != null">#{content},</if>
+            <if test="fileMeta != null">#{fileMeta},</if>
+            <if test="tokenCount != null">#{tokenCount},</if>
+            <if test="errorMsg != null">#{errorMsg},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAiMessage" parameterType="AiMessage">
+        update ai_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sessionId != null">session_id = #{sessionId},</if>
+            <if test="sortOrder != null">sort_order = #{sortOrder},</if>
+            <if test="isCurrent != null">is_current = #{isCurrent},</if>
+            <if test="role != null and role != ''">role = #{role},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="fileMeta != null">file_meta = #{fileMeta},</if>
+            <if test="tokenCount != null">token_count = #{tokenCount},</if>
+            <if test="errorMsg != null">error_msg = #{errorMsg},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAiMessageById" parameterType="Long">
+        delete from ai_message where id = #{id}
+    </delete>
+
+    <delete id="deleteAiMessageByIds" parameterType="String">
+        delete from ai_message where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

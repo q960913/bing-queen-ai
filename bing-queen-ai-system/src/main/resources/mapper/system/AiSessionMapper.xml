@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bing.queen.ai.system.mapper.AiSessionMapper">
+    
+    <resultMap type="AiSession" id="AiSessionResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="title"    column="title"    />
+        <result property="model"    column="model"    />
+        <result property="systemPrompt"    column="system_prompt"    />
+        <result property="temperature"    column="temperature"    />
+        <result property="historyLimit"    column="history_limit"    />
+        <result property="isPinned"    column="is_pinned"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAiSessionVo">
+        select id, user_id, title, model, system_prompt, temperature, history_limit, is_pinned, create_time, update_time from ai_session
+    </sql>
+
+    <select id="selectAiSessionList" parameterType="AiSession" resultMap="AiSessionResult">
+        <include refid="selectAiSessionVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="model != null  and model != ''"> and model = #{model}</if>
+            <if test="systemPrompt != null  and systemPrompt != ''"> and system_prompt = #{systemPrompt}</if>
+            <if test="temperature != null "> and temperature = #{temperature}</if>
+            <if test="historyLimit != null "> and history_limit = #{historyLimit}</if>
+            <if test="isPinned != null "> and is_pinned = #{isPinned}</if>
+        </where>
+    </select>
+    
+    <select id="selectAiSessionById" parameterType="Long" resultMap="AiSessionResult">
+        <include refid="selectAiSessionVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAiSession" parameterType="AiSession" useGeneratedKeys="true" keyProperty="id">
+        insert into ai_session
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="title != null">title,</if>
+            <if test="model != null">model,</if>
+            <if test="systemPrompt != null">system_prompt,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test="historyLimit != null">history_limit,</if>
+            <if test="isPinned != null">is_pinned,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="model != null">#{model},</if>
+            <if test="systemPrompt != null">#{systemPrompt},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test="historyLimit != null">#{historyLimit},</if>
+            <if test="isPinned != null">#{isPinned},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAiSession" parameterType="AiSession">
+        update ai_session
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="systemPrompt != null">system_prompt = #{systemPrompt},</if>
+            <if test="temperature != null">temperature = #{temperature},</if>
+            <if test="historyLimit != null">history_limit = #{historyLimit},</if>
+            <if test="isPinned != null">is_pinned = #{isPinned},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAiSessionById" parameterType="Long">
+        delete from ai_session where id = #{id}
+    </delete>
+
+    <delete id="deleteAiSessionByIds" parameterType="String">
+        delete from ai_session where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
