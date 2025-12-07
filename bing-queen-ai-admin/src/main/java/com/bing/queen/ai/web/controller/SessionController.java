@@ -3,7 +3,6 @@ package com.bing.queen.ai.web.controller;
 import com.bing.queen.ai.common.annotation.Log;
 import com.bing.queen.ai.common.core.controller.BaseController;
 import com.bing.queen.ai.common.core.domain.AjaxResult;
-import com.bing.queen.ai.common.core.domain.dto.AiSessionDTO;
 import com.bing.queen.ai.common.core.page.TableDataInfo;
 import com.bing.queen.ai.common.enums.BusinessType;
 import com.bing.queen.ai.system.domain.AiSession;
@@ -11,7 +10,6 @@ import com.bing.queen.ai.system.service.IAiSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,14 +31,7 @@ public class SessionController extends BaseController {
     {
         startPage();
         List<AiSession> list = aiSessionService.selectAiSessionList(aiSession);
-        List<AiSessionDTO> list1=new ArrayList<>();
-        for (AiSession aiSession1:list){
-            AiSessionDTO aiSessionDTO=new AiSessionDTO();
-            aiSessionDTO.setSessionID(aiSession1.getId());
-            aiSessionDTO.setTopic(aiSession1.getTitle());
-            list1.add(aiSessionDTO);
-        }
-        return getDataTable(list1);
+        return getDataTable(list);
     }
 
     /**
