@@ -12,7 +12,7 @@ import com.bing.queen.ai.system.service.IAiSessionService;
  * AI会话Service业务层处理
  * 
  * @author bing-queen-ai
- * @date 2025-12-05
+ * &#064;date  2025-12-05
  */
 @Service
 public class AiSessionServiceImpl implements IAiSessionService 
@@ -54,6 +54,19 @@ public class AiSessionServiceImpl implements IAiSessionService
     public int insertAiSession(AiSession aiSession)
     {
         aiSession.setCreateTime(DateUtils.getNowDate());
+        return aiSessionMapper.insertAiSession(aiSession);
+    }
+
+    /**
+     * 创建AI会话
+     *
+     * @param title AI题目
+     * @return 结果
+     */
+    public int createAiSession( String title){
+        AiSession aiSession = new AiSession();
+        aiSession.setCreateTime(DateUtils.getNowDate());
+        aiSession.setTitle(title);
         return aiSessionMapper.insertAiSession(aiSession);
     }
 

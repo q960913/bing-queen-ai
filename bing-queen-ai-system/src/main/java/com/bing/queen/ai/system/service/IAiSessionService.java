@@ -36,6 +36,14 @@ public interface IAiSessionService
     public int insertAiSession(AiSession aiSession);
 
     /**
+     * 创建AI会话
+     *
+     * @param title AI题目
+     * @return 结果
+     */
+    public int createAiSession( String title);
+
+    /**
      * 修改AI会话
      * 
      * @param aiSession AI会话
